@@ -1,16 +1,13 @@
 services:
-  # MySQL Ma'lumotlar bazasi
   crm-db:
     image: mysql:8.0
     container_name: crm_mysql
     restart: always
-
     environment:
       MYSQL_DATABASE: crm
       MYSQL_USER: hudoyor
       MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root_master_password
-
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -20,7 +17,7 @@ services:
       - "5542:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-  # Java CRM ilovasi
+
   crm-app:
     build: .
     container_name: java_crm_app
@@ -34,6 +31,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://crm-db:3306/crm?allowPublicKeyRetrieval=true&useSSL=false
       - SPRING_DATASOURCE_USERNAME=hudoyor
       - SPRING_DATASOURCE_PASSWORD=root
+      - GOOGLE_CLIENT_ID=test
+      - GOOGLE_CLIENT_SECRET=test
 
 volumes:
   mysql_data:
